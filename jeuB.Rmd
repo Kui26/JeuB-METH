@@ -7,29 +7,26 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(jeuB)
-
 library(ggplot2)
 library(gridExtra)
+```
+
+
+## Question 1
+Reproduction du graphe de Playfair à partir des données numériques. Les données utilisés se trouvent dans le fichier "jeuB.csv" (situé dans le même répertoire que ce fichier).
+
+```{r}
+jeuB<-read.csv(file="jeuB.csv", header=TRUE)
 
 line1 <- ggplot(data = jeuB, aes(x=Year, y=Wheat)) + geom_bar(colour="blue", stat="identity")
 
 line2 <- ggplot(jeuB, aes(x=Year, y=Wages))+ geom_area(color="red", fill="lightgray")
 
-
-# Question 1
 grid.arrange(line1, line2)
 
 ggplot(jeuB) + geom_bar(aes(x=Year, y=Wheat), stat = "identity", colour="blue") + geom_area(aes(x=Year, y=Wages), fill="lightgray", alpha=0.7) + geom_line(aes(x=Year, y=Wages), color="red") + ggtitle("graphe de Playfair")
 
 ```
+
+## Question 2
 
