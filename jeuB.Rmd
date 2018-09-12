@@ -15,7 +15,7 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
+```{r jeuB}
 summary(jeuB)
 
 library(ggplot2)
@@ -29,7 +29,17 @@ line2 <- ggplot(jeuB, aes(x=Year, y=Wages))+ geom_area(color="red", fill="lightg
 # Question 1
 grid.arrange(line1, line2)
 
-ggplot(jeuB) + geom_bar(aes(x=Year, y=Wheat), stat = "identity", colour="blue") + geom_area(aes(x=Year, y=Wages), fill="lightgray", alpha=0.7) + geom_line(aes(x=Year, y=Wages), color="red") + ggtitle("graphe de Playfair")
+
+ggplot(jeuB) + geom_bar(aes(x=Year, y=Wheat), stat = "identity", colour="blue") + geom_area(aes(x=Year, y=Wages), fill="lightgray", alpha=0.7) + geom_line(aes(x=Year, y=Wages), color="red") + ggtitle("graphe de Playfair")  + scale_y_continuous("Wheat and Wages", sec.axis = sec_axis(~.+0))
 
 ```
 
+```{r jeuB}
+
+
+# Question 2
+grid.arrange(line1, line2)
+
+ggplot(jeuB) + geom_area(aes(x=Year, y=Wages*52), fill="lightgray", alpha=0.7) + geom_line(aes(x=Year, y=Wages*52), color="red") + ggtitle("graphe de Playfair")  +  geom_bar(aes(x=Year, y=(Wheat/15)*6.8), stat = "identity", colour="blue") +  scale_y_continuous("Wheat & Wages", sec.axis = sec_axis(~.+0)) 
+
+```
