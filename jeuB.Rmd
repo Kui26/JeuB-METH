@@ -5,41 +5,47 @@ date: "11 septembre 2018"
 output: html_document
 ---
 
+## Initialisation 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r jeuB}
-summary(jeuB)
-
 library(ggplot2)
 library(gridExtra)
-
-line1 <- ggplot(data = jeuB, aes(x=Year, y=Wheat)) + geom_bar(colour="blue", stat="identity")
-
-line2 <- ggplot(jeuB, aes(x=Year, y=Wages))+ geom_area(color="red", fill="lightgray")
+jeuB<-read.csv(file="jeuB.csv", header=TRUE)
+```
 
 
-# Question 1
+## Question 1
+Reproduction du graphe de Playfair ? partir des donn?es num?riques. Les donn?es utilis?s se trouvent dans le fichier "jeuB.csv" (situ? dans le m?me r?pertoire que ce fichier).
+
+On commence tout d'abord par 2 graphes s?parant le prix du bl? ? l'ann?e et le salaire hebdomaire ? l'ann?e.
+
+```{r}
+line1 <- ggplot(data = jeuB, aes(x=Year, y=Wheat)) + geom_bar(colour="black", stat="identity") + labs (x="Year", y="Price of the quarter of wheats in shillings")
+
+line2 <- ggplot(jeuB, aes(x=Year, y=Wages))+ geom_area(color="red", fill="lightblue") + labs (x="Year", y="Weekly wage in shillings")
+
 grid.arrange(line1, line2)
+```
 
 
-ggplot(jeuB) + geom_bar(aes(x=Year, y=Wheat), stat = "identity", colour="blue") + geom_area(aes(x=Year, y=Wages), fill="lightgray", alpha=0.7) + geom_line(aes(x=Year, y=Wages), color="red") + ggtitle("graphe de Playfair")  + scale_y_continuous("Wheat and Wages", sec.axis = sec_axis(~.+0))
+On fusionne maintenant les 2 graphiques pr?c?dents en un seul :
+```{r}
+ggplot(jeuB) + geom_bar(aes(x=Year, y=Wheat), stat = "identity", colour="black") + geom_area(aes(x=Year, y=Wages), fill="lightblue", alpha=0.7) + geom_line(aes(x=Year, y=Wages), color="red") + ggtitle("graphe de Playfair") + labs(x="Year", y= "Weekly wage in shillings") + scale_y_continuous(sec.axis = sec_axis(~.+0, name = "Price of the quarter of wheats in shillings"), position = "left")
 
 ```
 
-```{r jeuB}
+## Question 2
+Am?lioration de la pr?sentation des donn?es. On remplace l'unit? "shillings par quart de boisseau de blé" par "shillings par kg de bl?" et "shillings par semaine" par "shillings par an" (on ne prendra pas en compte ici les ann?es bissextiles).
 
-
-# Question 2
-grid.arrange(line1, line2)
-
-ggplot(jeuB) + geom_area(aes(x=Year, y=Wages*52), fill="lightgray", alpha=0.7) + geom_line(aes(x=Year, y=Wages*52), color="red") + ggtitle("graphe de Playfair")  +  geom_bar(aes(x=Year, y=(Wheat/15)*6.8), stat = "identity", colour="blue") +  scale_y_continuous("Wheat & Wages", sec.axis = sec_axis(~.+0)) 
-
+```{r}
+ggplot(jeuB) + geom_bar(aes(x=Year, y=(Wheat/15)*6.8), stat = "identity", colour="black") + labs(x="Year", y= "Yearly wage in shillings") + geom_area(aes(x=Year, y=Wages*52), fill="lightblue", alpha=0.7) + geom_line(aes(x=Year, y=Wages*52), color="red") + ggtitle("graphe de Playfair") + scale_y_continuous(sec.axis = sec_axis(~.+0, name = "Wheat price per kg in shillings"), position = "left")
 ```
+
+Sous cette forme, le graphe est peu pertinent : on n'observe pas la relation entre les 2 unités utilisées et l'évolution du prix du blé est invisible.
+
+Par conséquent, nous modifions le graphe de façon a obtenir une echelle plus pertinente pour le prix du blé.
+```{r}
+ggplot(jeuB) + geom_bar(aes(x=Year, y=(Wheat/15)*6.8*52), stat = "identity", colour="black") + labs(x="Year", y= "Yearly wage in shillings") + geom_area(aes(x=Year, y=Wages*52), fill="lightblue", alpha=0.7) + geom_line(aes(x=Year, y=Wages*52), color="red") + ggtitle("graphe de Playfair") + scale_y_continuous(sec.axis = sec_axis(~./52, name = "Wheat price per kg in shillings"), position = "left")
+```
+
+## Question 3
