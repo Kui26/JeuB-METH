@@ -12,6 +12,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(gridExtra)
+library(wesanderson)
 jeuB<-read.csv(file="jeuB.csv", header=TRUE)
 ```
 
@@ -61,8 +62,9 @@ Sur ce graphique, on observe que le pouvoir d'achat des ouvriers augmentent au f
 
 On observe ensuite l'évolution du prix du blé en fonction des salaires (annuels).
 ```{r}
-ggplot(data = jeuB, aes(x=Wages*52, y=Wheat/6.8)) + geom_point(color="black") + geom_smooth() + labs (x="Yearly wage in shillings", y="Wheat price per kg in shillings") + ggtitle("Evolution of the price of the wheat depending on the wages") + theme_bw()
+ggplot(data = jeuB, aes(x=Wages*52, y=Wheat/6.8)) + geom_point(aes(color = cut(Year, c(-Inf, 1700, 1730, 1780, Inf)))) + scale_color_manual(name = "Year", values=wes_palette(n=4, name="FantasticFox1"), labels = c("before 1700", "between 1700 and 1730", "between 1730 and 1780", "after 1780")) + geom_smooth(fill="lightgrey") + labs (x="Yearly wage in shillings", y="Wheat price per kg in shillings") + ggtitle("Evolution of the price of the wheat depending on the wages") + theme_bw()
 ```
+
 Sur le graphique ci-dessus, il semble que plus le prix du blé (au kilo) est important, plus les salaires le sont aussi. Selon le graphique de Playfair, cela s'explique par le fait que les salaires augmentent au fur et à mesure du temps. Il en va de même pour le prix du blé mais de manière inégale pour celui-ci.
 
 
