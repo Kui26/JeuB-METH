@@ -1,8 +1,10 @@
 ---
-title: "JeuB"
-author: "Kui"
-date: "11 septembre 2018"
-output: html_document
+title: "Le pouvoir d'achat des ouvriers anglais du 16eme au 19eme siecle"
+author: "Stephane Kui & Kevin Imbert"
+date: "13 septembre 2018"
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ## Initialisation 
@@ -15,37 +17,49 @@ jeuB<-read.csv(file="jeuB.csv", header=TRUE)
 
 
 ## Question 1
-Reproduction du graphe de Playfair ? partir des donn?es num?riques. Les donn?es utilis?s se trouvent dans le fichier "jeuB.csv" (situ? dans le m?me r?pertoire que ce fichier).
+Reproduction du graphe de Playfair à partir des donnees numeriques. Les donnees utilisees se trouvent dans le fichier "jeuB.csv" (situe dans le meme repertoire que ce fichier).
 
-On commence tout d'abord par 2 graphes s?parant le prix du bl? ? l'ann?e et le salaire hebdomaire ? l'ann?e.
+On commence tout d'abord par 2 graphes separant le prix du ble a l'annee et le salaire hebdomaire a l'annee.
 
 ```{r}
-line1 <- ggplot(data = jeuB, aes(x=Year, y=Wheat)) + geom_bar(colour="black", stat="identity") + labs (x="Year", y="Price of the quarter of wheats in shillings")
+line1 <- ggplot(data = jeuB, aes(x=Year, y=Wheat)) + geom_bar(colour="black", stat="identity") + labs (x="Year", y="Price of the quarter of wheats in shillings") + theme_bw()
 
-line2 <- ggplot(jeuB, aes(x=Year, y=Wages))+ geom_area(color="red", fill="lightblue") + labs (x="Year", y="Weekly wage in shillings")
+line2 <- ggplot(jeuB, aes(x=Year, y=Wages))+ geom_area(color="red", fill="lightblue") + labs (x="Year", y="Weekly wage in shillings") + theme_bw()
 
 grid.arrange(line1, line2)
 ```
 
 
-On fusionne maintenant les 2 graphiques pr?c?dents en un seul :
+On fusionne maintenant les 2 graphiques precedents en un seul :
 ```{r}
-ggplot(jeuB) + geom_bar(aes(x=Year, y=Wheat), stat = "identity", colour="black") + geom_area(aes(x=Year, y=Wages), fill="lightblue", alpha=0.7) + geom_line(aes(x=Year, y=Wages), color="red") + ggtitle("graphe de Playfair") + labs(x="Year", y= "Weekly wage in shillings") + scale_y_continuous(sec.axis = sec_axis(~.+0, name = "Price of the quarter of wheats in shillings"), position = "left")
+ggplot(jeuB) + geom_bar(aes(x=Year, y=Wheat), stat = "identity", colour="black") + geom_area(aes(x=Year, y=Wages), fill="lightblue", alpha=0.7) + geom_line(aes(x=Year, y=Wages), color="red") + ggtitle("graphe de Playfair") + labs(x="Year", y= "Weekly wage in shillings") + scale_y_continuous(sec.axis = sec_axis(~.+0, name = "Price of the quarter of wheats in shillings"), position = "left") + theme_bw()
 
 ```
 
 ## Question 2
-Am?lioration de la pr?sentation des donn?es. On remplace l'unit? "shillings par quart de boisseau de blÃ©" par "shillings par kg de bl?" et "shillings par semaine" par "shillings par an" (on ne prendra pas en compte ici les ann?es bissextiles).
+Amelioration de la presentation des donnees. On remplace l'unite "shillings par quart de boisseau de ble" par "shillings par kg de ble" et "shillings par semaine" par "shillings par an" (on ne prendra pas en compte ici les annees bissextiles).
 
 ```{r}
-ggplot(jeuB) + geom_bar(aes(x=Year, y=(Wheat/15)*6.8), stat = "identity", colour="black") + labs(x="Year", y= "Yearly wage in shillings") + geom_area(aes(x=Year, y=Wages*52), fill="lightblue", alpha=0.7) + geom_line(aes(x=Year, y=Wages*52), color="red") + ggtitle("graphe de Playfair") + scale_y_continuous(sec.axis = sec_axis(~.+0, name = "Wheat price per kg in shillings"), position = "left")
+ggplot(jeuB) + geom_bar(aes(x=Year, y=Wheat/6.8), stat = "identity", colour="black") + labs(x="Year", y= "Yearly wage in shillings") + geom_area(aes(x=Year, y=Wages*52), fill="lightblue", alpha=0.7) + geom_line(aes(x=Year, y=Wages*52), color="red") + ggtitle("graphe de Playfair") + scale_y_continuous(sec.axis = sec_axis(~.+0, name = "Wheat price per kg in shillings"), position = "left") + theme_bw()
 ```
 
-Sous cette forme, le graphe est peu pertinent : on n'observe pas la relation entre les 2 unitÃ©s utilisÃ©es et l'Ã©volution du prix du blÃ© est invisible.
+Sous cette forme, le graphe est peu pertinent : on n'observe pas la relation entre les 2 unites utilisees et l'evolution du prix du ble est invisible.
 
-Par consÃ©quent, nous modifions le graphe de faÃ§on a obtenir une echelle plus pertinente pour le prix du blÃ©.
+Par consequent, nous modifions le graphe de façon a obtenir une echelle plus pertinente pour le prix du ble.
 ```{r}
-ggplot(jeuB) + geom_bar(aes(x=Year, y=(Wheat/15)*6.8*52), stat = "identity", colour="black") + labs(x="Year", y= "Yearly wage in shillings") + geom_area(aes(x=Year, y=Wages*52), fill="lightblue", alpha=0.7) + geom_line(aes(x=Year, y=Wages*52), color="red") + ggtitle("graphe de Playfair") + scale_y_continuous(sec.axis = sec_axis(~./52, name = "Wheat price per kg in shillings"), position = "left")
+ggplot(jeuB) + geom_bar(aes(x=Year, y=(Wheat/6.8)*200), stat = "identity", colour="black") + labs(x="Year", y= "Yearly wage in shillings") + geom_area(aes(x=Year, y=Wages*52), fill="lightblue", alpha=0.7) + geom_line(aes(x=Year, y=Wages*52), color="red") + ggtitle("graphe de Playfair") + scale_y_continuous(sec.axis = sec_axis(~./200, name = "Wheat price per kg in shillings"), position = "left") + theme_bw()
 ```
 
 ## Question 3
+On va effectuer ici une représentation graphique du pouvoir d'achat des ouvriers au cours du temps. 
+
+Dans un premier temps, on définie le pouvoir d'achat comme la quantité de blé qu'un ouvrier peut acheter avec son salaire hebdomadaire.
+```{r}
+ggplot(data = jeuB, aes(x=Year, y=Wages/(Wheat/6.8))) + geom_line(color="red") + labs (x="Year", y="Quantity of wheat (in kg) that a worker can weekly buy") + theme_bw()
+```
+
+On observe ensuite l'évolution des salaires (annuels) en fonction du prix du blé.
+```{r}
+ggplot(data = jeuB, aes(x=Wages*52, y=Wheat/6.8)) + geom_point(color="black") + geom_smooth() + labs (x="Yearly wage in shillings", y="Wheat price per kg in shillings") + theme_bw()
+```
+
