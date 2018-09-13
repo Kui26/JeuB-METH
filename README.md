@@ -1,6 +1,6 @@
 # (B) Le pouvoir d’achat des ouvriers anglais du 16ème au 19ème siècle
 
-William Playfair était un des pionniers de la présentation graphique des données. Il est notamment considéré comme l’inventeur de l’histogramme. Un de ses graphes célèbres, tiré de son livre ”A Letter on Our Agricultural Distresses, Their Causes and Remedies”, montre l’évolution du prix du blé et du salaire moyen entre 1565 et 1821. Playfair n’a pas publié les données numériques brutes qu’il a utilisées, car à son époque la réplicabilité n’était pas encore considérée comme essentielle. Des valeurs obtenues par numérisation du graphe sont aujourd’hui téléchargeables, la version en format CSV étant la plus pratique (https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/csv/HistData/Wheat.csv).
+William Playfair était un des pionniers de la présentation graphique des données. Il est notamment considéré comme l’inventeur de l’histogramme. Un de ses graphes célèbres, tiré de son livre ”A Letter on Our Agricultural Distresses, Their Causes and Remedies”, montre l’évolution du prix du blé et du salaire moyen entre 1565 et 1821. Playfair n’a pas publié les données numériques brutes qu’il a utilisées, car à son époque la réplicabilité n’était pas encore considérée comme essentielle. Des valeurs obtenues par numérisation du graphe sont aujourd’hui téléchargeables, la version en format [CSV](https://raw.githubusercontent.com/vincentarelbundock/Rdatasets/master/csv/HistData/Wheat.csv) étant la plus pratique.
 
 Quelques remarques pour la compréhension des données:
 
